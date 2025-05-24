@@ -1,123 +1,146 @@
 // Accessing the body of the document
-const body = document.body;
+const pageBody = document.body;
 
-// creating an element
-const div = document.createElement('div');
-div.innerHTML = 'Hello world';
-body.append(div);
-
-
-// differentiating between innerText and textContent
-const div = document.querySelector('div');
-console.log(div.textContent)
-console.log(div.innerText)
+// Creating and appending a new element
+const greetingDiv = document.createElement('div');
+greetingDiv.innerHTML = 'Hello world';
+pageBody.append(greetingDiv);
 
 
-// Not the right way due to security issues
-const div = document.createElement('div')
-div.innerHTML = "<strong>Hello world2</strong>"
-body.append(div)
+// Differentiating between innerText and textContent
+console.log("textContent:", greetingDiv.textContent);
+console.log("innerText:", greetingDiv.innerText);
 
-// The right way
-const div = document.createElement('div');
-const strong = document.createElement('strong');
-strong.innerText = 'Hello worlrd';
-div.append(strong);
-body.append(div)
 
-// removing an element from the DOM
-const div = document.querySelector('div');
-const spanHi = document.querySelector('#hi');
-const spanBye = document.querySelector('#bye');
+// ❌ Not recommended: Setting innerHTML directly (Security Risk)
+const unsafeDiv = document.createElement('div');
+unsafeDiv.innerHTML = "<strong>Hello world2</strong>";
+pageBody.append(unsafeDiv);
 
-spanBye.remove();
-div.append(spanBye);
 
-div.removeChild(spanHi);
+// ✅ Recommended: Creating elements the safe way
+const safeDiv = document.createElement('div');
+const strongText = document.createElement('strong');
+strongText.innerText = 'Hello safe world';
+safeDiv.append(strongText);
+pageBody.append(safeDiv);
+
+
+// Removing and moving elements
+const hiSpan = document.querySelector('#hi');
+const byeSpan = document.querySelector('#bye');
+
+// Example: Moving the byeSpan into another element
+safeDiv.append(byeSpan);
+
+// Example: Removing an element
+// hiSpan.remove();
 
 // Accessing element attributes
-console.log(spanHi.getAttribute('id'));
-console.log(spanHi.title)
+console.log("ID of hiSpan:", hiSpan.getAttribute('id'));
+console.log("Title of hiSpan:", hiSpan.title);
 
-spanHi.removeAttribute('id')
+// Modifying element attributes and classes
+hiSpan.removeAttribute('id');
+hiSpan.classList.remove('hi1');
 
-spanHi.classList.remove('hi1')
 
+// Array methods: map()
+const numberArray = [1, 2, 3, 4, 5];
 
-// Map function
-
-const numbers = [1,2,3,4,5];
-
-const squares =  numbers.map(square);
-console.log(squares);
-
-const cubes =  numbers.map(cube);
-console.log(cubes);
-
-function square(element){
-    return Math.pow(element,2)
+function square(num) {
+    return Math.pow(num, 2);
 }
 
-function cube(element){
-    return Math.pow(element,3)
+function cube(num) {
+    return Math.pow(num, 3);
 }
 
+const squaredNumbers = numberArray.map(square);
+console.log("Squares:", squaredNumbers);
 
-const students = ["Joseph","Mwangaza","Mokoli"];
+const cubedNumbers = numberArray.map(cube);
+console.log("Cubes:", cubedNumbers);
 
-const studentsUppercase = students.map(upperCase);
-const slowerCase = studentsUppercase.map(lowerCase)
-console.log(slowerCase);
 
-function upperCase(element){
-    return element.toUpperCase();
+// Working with strings
+const studentNames = ["Joseph", "Mwangaza", "Mokoli"];
+
+function toUpperCaseName(name) {
+    return name.toUpperCase();
 }
 
-function lowerCase(element){
-    return element.toLowerCase();
+function toLowerCaseName(name) {
+    return name.toLowerCase();
 }
 
-const dates = ["2024-1-10","2025-02-20","2026-03-30"];
+const uppercasedStudents = studentNames.map(toUpperCaseName);
+const lowercasedStudents = uppercasedStudents.map(toLowerCaseName);
+console.log("Lowercased again:", lowercasedStudents);
 
-const formatDates = dates.map(formatDate);
-console.log(formatDates)
 
-function formatDate(element){
-    const parts = element.split("-");
-    return `${parts[1]}/${parts[2]}/${parts[0]}`
+// Date formatting example
+const rawDates = ["2024-1-10", "2025-02-20", "2026-03-30"];
+
+function reformatDate(dateStr) {
+    const [year, month, day] = dateStr.split("-");
+    return `${month}/${day}/${year}`;
 }
 
+const formattedDates = rawDates.map(reformatDate);
+console.log("Formatted Dates:", formattedDates);
 
-// filter method
-const evenNums = numbers.filter(isEven)
-console.log(evenNums);
 
-function isEven(element){
-    return element % 2 === 0;
+// Using filter()
+function isEven(num) {
+    return num % 2 === 0;
 }
 
-const people = [
-    {firstname: "Joseph", lastname: "Mwangaza"},
-    {firstname: "Daniel", lastname: "Kaguru"},
-    {firstname: "Brian", lastname: "Gakenye"},
-    {firstname: "Ascah", lastname: "Kepha"},
+const evenNumbers = numberArray.filter(isEven);
+console.log("Even Numbers:", evenNumbers);
+
+
+// Mapping objects to full names
+const peopleList = [
+    { firstname: "Joseph", lastname: "Mwangaza" },
+    { firstname: "Daniel", lastname: "Kaguru" },
+    { firstname: "Brian", lastname: "Gakenye" },
+    { firstname: "Ascah", lastname: "Kepha" },
 ];
 
-let allFullNames = people.map(fullName);
-console.log(allFullNames);
-
-function fullName(element){
-    return `${element.firstname} ${element.lastname}`
+function getFullName(person) {
+    return `${person.firstname} ${person.lastname}`;
 }
 
-const p = document.querySelector("p");
+const fullNames = peopleList.map(getFullName);
+console.log("Full Names:", fullNames);
 
-function changeText(){
-    p.innerText = 'Coding is Fun';
+
+// DOM Text Manipulation
+const paragraphElement = document.querySelector("p");
+
+function updateTextContent() {
+    paragraphElement.innerText = 'Coding is Fun';
 }
 
 
-const div = document.querySelector(".container");
-function changeBackgroundColor(){
-    div.style.backgroundColor = 'blue';
+// Changing styles dynamically
+function applyBlueBackground() {
+    safeDiv.style.backgroundColor = 'blue';
 }
+
+
+// Event Handling Example
+const clickButton = document.querySelector('#myBtn');
+
+clickButton.addEventListener('click', function () {
+    alert('You clicked the button!');
+});
+
+// How to update form inputs values
+const myInput = document.querySelector('#myInput');
+let inputValue = document.querySelector('#inputValue');
+
+myInput.addEventListener('input',function(){
+    inputValue.textContent = myInput.value;
+});
