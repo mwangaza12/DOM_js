@@ -144,3 +144,12 @@ let inputValue = document.querySelector('#inputValue');
 myInput.addEventListener('input',function(){
     inputValue.textContent = myInput.value;
 });
+
+
+// How to toggle visibility
+const btn = document.getElementById('toggle');
+const para = document.getElementById('togglePara');
+
+btn.addEventListener('click',function(){
+    para.style.display = para.style.display === 'none' ? 'block' : 'none';
+})
