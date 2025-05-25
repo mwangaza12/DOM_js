@@ -1,3 +1,4 @@
+// DOM manipulation guide
 // Accessing the body of the document
 const pageBody = document.body;
 
