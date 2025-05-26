@@ -35,7 +35,7 @@ const byeSpan = document.querySelector('#bye');
 safeDiv.append(byeSpan);
 
 // Example: Removing an element
-// hiSpan.remove();
+hiSpan.remove();
 
 // Accessing element attributes
 console.log("ID of hiSpan:", hiSpan.getAttribute('id'));
